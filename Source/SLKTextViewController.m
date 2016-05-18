@@ -32,6 +32,7 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
 
 // The shared scrollView pointer, either a tableView or collectionView
 @property (nonatomic, weak) UIScrollView *scrollViewProxy;
+@property (nonatomic, strong) UIView *scrollViewContainer;
 
 // A hairline displayed on top of the auto-completion view, to better separate the content from the control.
 @property (nonatomic, strong) UIView *autoCompletionHairline;
@@ -170,8 +171,11 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [self.view addSubview:self.scrollViewProxy];
+
+    self.scrollViewContainer = [UIView new];
+    [self.view addSubview:self.scrollViewContainer];
+    [self.scrollViewContainer addSubview:self.scrollViewProxy];
+
     [self.view addSubview:self.autoCompletionView];
     [self.view addSubview:self.typingIndicatorProxyView];
     [self.view addSubview:self.textInputbar];
@@ -2117,15 +2121,19 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
 
 - (void)slk_setupViewConstraints
 {
-    NSDictionary *views = @{@"scrollView": self.scrollViewProxy,
-                            @"autoCompletionView": self.autoCompletionView,
-                            @"typingIndicatorView": self.typingIndicatorProxyView,
-                            @"textInputbar": self.textInputbar,
-                            };
-    
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[scrollView(0@750)][typingIndicatorView(0)]-0@999-[textInputbar(0)]|" options:0 metrics:nil views:views]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=0)-[autoCompletionView(0@750)][typingIndicatorView]" options:0 metrics:nil views:views]];
+    NSDictionary *views = @{
+            @"scrollViewContainer": self.scrollViewContainer,
+            @"scrollView": self.scrollViewProxy,
+            @"autoCompletionView": self.autoCompletionView,
+            @"typingIndicatorView": self.typingIndicatorProxyView,
+            @"textInputbar": self.textInputbar,
+    };
+
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[scrollView]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[scrollView]|" options:0 metrics:nil views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[scrollViewContainer(0@750)][typingIndicatorView(0)]-0@999-[textInputbar(0)]|" options:0 metrics:nil views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=0)-[autoCompletionView(0@750)][typingIndicatorView]" options:0 metrics:nil views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[scrollViewContainer]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[autoCompletionView]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[typingIndicatorView]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[textInputbar]|" options:0 metrics:nil views:views]];
