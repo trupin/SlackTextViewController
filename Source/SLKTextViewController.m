@@ -37,7 +37,6 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
 @property (nonatomic, strong) UIView *autoCompletionHairline;
 
 // Auto-Layout height constraints used for updating their constants
-@property (nonatomic, strong) NSLayoutConstraint *scrollViewHC;
 @property (nonatomic, strong) NSLayoutConstraint *textInputbarHC;
 @property (nonatomic, strong) NSLayoutConstraint *typingIndicatorViewHC;
 @property (nonatomic, strong) NSLayoutConstraint *autoCompletionViewHC;
@@ -530,7 +529,7 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
     if ([_scrollViewProxy isEqual:scrollView]) {
         return;
     }
-    
+
     _singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(slk_didTapScrollView:)];
     _singleTapGesture.delegate = self;
     [_singleTapGesture requireGestureRecognizerToFail:scrollView.panGestureRecognizer];
