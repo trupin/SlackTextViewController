@@ -52,6 +52,8 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
 /** The main table view managed by the controller object. Created by default initializing with -init or initWithNibName:bundle: */
 @property (nonatomic, readonly) UITableView *_Nullable tableView;
 
+@property (nonatomic, readonly) UIView *scrollViewContainer;
+
 /** The main collection view managed by the controller object. Not nil if the controller is initialised with -initWithCollectionViewLayout: */
 @property (nonatomic, readonly) UICollectionView *_Nullable collectionView;
 
@@ -121,8 +123,6 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
 @property (nonatomic, readonly) SLKTextView *textView;
 @property (nonatomic, readonly) UIButton *leftButton;
 @property (nonatomic, readonly) UIButton *rightButton;
-
-@property (nonatomic, strong) NSLayoutConstraint *scrollViewHC;
 
 #pragma mark - Initialization
 ///------------------------------------------------
@@ -420,8 +420,6 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
 
 /** An array containing all the registered prefix strings for autocompletion. */
 @property (nonatomic, readonly, copy) NSSet <NSString *> *_Nullable registeredPrefixes;
-
-- (void)slk_willShowOrHideTypeIndicatorView:(UIView <SLKTypingIndicatorProtocol> *)view;
 
 /**
  Registers any string prefix for autocompletion detection, like for user mentions or hashtags autocompletion.

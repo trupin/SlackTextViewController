@@ -32,12 +32,14 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
 
 // The shared scrollView pointer, either a tableView or collectionView
 @property (nonatomic, weak) UIScrollView *scrollViewProxy;
+
 @property (nonatomic, strong) UIView *scrollViewContainer;
 
 // A hairline displayed on top of the auto-completion view, to better separate the content from the control.
 @property (nonatomic, strong) UIView *autoCompletionHairline;
 
 // Auto-Layout height constraints used for updating their constants
+@property (nonatomic, strong) NSLayoutConstraint *scrollViewHC;
 @property (nonatomic, strong) NSLayoutConstraint *textInputbarHC;
 @property (nonatomic, strong) NSLayoutConstraint *typingIndicatorViewHC;
 @property (nonatomic, strong) NSLayoutConstraint *autoCompletionViewHC;
@@ -173,6 +175,9 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
     [super viewDidLoad];
 
     self.scrollViewContainer = [UIView new];
+    self.scrollViewContainer.translatesAutoresizingMaskIntoConstraints = NO;
+    self.scrollViewContainer.clipsToBounds = NO;
+
     [self.view addSubview:self.scrollViewContainer];
     [self.scrollViewContainer addSubview:self.scrollViewProxy];
 
@@ -2138,7 +2143,7 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[typingIndicatorView]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[textInputbar]|" options:0 metrics:nil views:views]];
     
-    self.scrollViewHC = [self.view slk_constraintForAttribute:NSLayoutAttributeHeight firstItem:self.scrollViewProxy secondItem:nil];
+    self.scrollViewHC = [self.view slk_constraintForAttribute:NSLayoutAttributeHeight firstItem:self.scrollViewContainer secondItem:nil];
     self.autoCompletionViewHC = [self.view slk_constraintForAttribute:NSLayoutAttributeHeight firstItem:self.autoCompletionView secondItem:nil];
     self.typingIndicatorViewHC = [self.view slk_constraintForAttribute:NSLayoutAttributeHeight firstItem:self.typingIndicatorProxyView secondItem:nil];
     self.textInputbarHC = [self.view slk_constraintForAttribute:NSLayoutAttributeHeight firstItem:self.textInputbar secondItem:nil];
@@ -2159,7 +2164,6 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
     
     [super updateViewConstraints];
 }
-
 
 #pragma mark - Keyboard Command registration
 
