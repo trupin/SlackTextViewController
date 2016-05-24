@@ -162,7 +162,7 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
 - (UIButton *)leftButton
 {
     if (!_leftButton) {
-        _leftButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        _leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _leftButton.translatesAutoresizingMaskIntoConstraints = NO;
         _leftButton.titleLabel.font = [UIFont systemFontOfSize:15.0];
     }
@@ -172,7 +172,7 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
 - (UIButton *)rightButton
 {
     if (!_rightButton) {
-        _rightButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        _rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _rightButton.translatesAutoresizingMaskIntoConstraints = NO;
         _rightButton.titleLabel.font = [UIFont boldSystemFontOfSize:15.0];
         _rightButton.enabled = NO;
